@@ -1,0 +1,35 @@
+<div style="min-height: 24px;">
+  <p id="order-info"></p>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const appUrl = '/apps/popular-product-orders/api/products?productId={{product.id}}'
+
+    fetch(appUrl)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! : ${response.status}`)
+      }
+      return response.json()
+    })
+    .then(result => {
+      if (result.data > 0) {
+        const html = `
+          <span>
+            <span>${result.data}</span> Orders Since Yesterday!
+          </span>
+        `
+        document.querySelector('#order-info').innerHTML = html
+      }
+    })
+  })
+</script>
+
+{% schema %}
+{
+  "name": "Popular-Product-Orders",
+  "target": "section",
+  "settings": []
+}
+{% endschema %}
